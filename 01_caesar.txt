@@ -1,0 +1,76 @@
+Theory:
+
+It is one of the earliest and simplest methods of encryption technique. It’s simply a type of substitution cipher, i.e., each letter of a given text is replaced by a letter with a fixed number of positions down the alphabet. Thus to cipher a given text we need an integer value, known as a shift which indicates the number of positions each letter of the text has been moved down. 
+
+Code: 
+
+import sys
+
+def encrypt(text, s):
+
+    result = ""
+
+    for char in text:
+
+        if char == " ":
+
+            result += char
+
+        elif (char.isupper()):
+
+            result += chr ((ord (char) + s-65) % 26 + 65)
+
+        else:
+
+            result += chr ((ord (char) + s - 97) % 26 + 97)
+
+    return result
+
+
+def runner():
+
+    while 1:
+
+        print(" ")
+
+        print("1. Encryption")
+
+        print("2. Decryption")
+
+        print("3. Exit")
+
+        choice = int(input("Enter choice: "))
+
+        print(" ")
+
+        if (choice == 3):
+
+            sys.exit("")
+
+        elif (choice == 1 or choice == 2):
+
+            u_input = input("Enter message: ") if (choice == 1) else input("Enter cipher text: ")
+
+            u_key = int(input("Enter the key: "))
+
+            if(choice == 1):
+
+                output = encrypt(u_input, u_key)
+
+                print ("Result is: " + output)
+
+            elif(choice == 2):
+
+                output = encrypt(u_input, 26-u_key)
+
+                print("Result is: " + output)
+
+        else:
+
+            print("Invalid input")
+
+runner()
+
+
+Output: 
+https://lh3.googleusercontent.com/O9zK2zMTgiDw_65In7kLz1IxX9jAuBQ3nWMHpJ5aCnMi-zV3iZOK4Gnseur9nkruE9Ku8s8Sy7RLejN0TfPVj5i6a4ZFoPquPWrzJs8GkSd6KLzpnAIegL1akIwZ7t1fDi8HAKNjD6seA35HJMkLQGFvrVb6u7bC4O89zs1CLGklR66aYs4sb4w

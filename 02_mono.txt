@@ -1,0 +1,74 @@
+Theory:
+
+A mono-alphabetic cipher (aka simple substitution cipher) is a substitution cipher where each letter of the plain text is replaced with another letter of the alphabet. It uses a fixed key which consists of the 26 letters of a “shuffled alphabet”. 
+This type of cipher is a form of symmetric encryption as the same key can be used to both encrypt and decrypt a message.
+
+Code: 
+
+#include<iostream>
+#include<string>
+#include<unordered_map>
+using namespace std;
+char decrypt(unordered_map<char,char> map,char a){
+    auto iterate = map.begin();
+    char c = '/';
+    while(iterate!=map.end()){
+        if(iterate->second == a){
+            c = iterate->first;
+        }
+        iterate++;
+    }
+    return c;
+}
+int main(){
+    unordered_map<char,char> mapKey;
+    string a = "attack postponed to tomorrow and do not use our secret paper until further information";
+    string assigned;
+    string assignedkey;
+    string key = "the quick brown fox jumps over the lazy dog";
+    int index = 0;
+    cout<<"Message: "<<a<<endl;
+    cout<<"Key: "<<key<<endl;
+
+    for(int i =0;i<a.length();i++){
+        if(a[i] == ' '){
+            continue;
+        }
+        if(assigned.find(a[i])!=-1){
+            continue;
+        }
+        else{
+            assigned+=a[i];
+            if(key[index] == ' '||assignedkey.find(key[index])!=-1){
+                index++;
+            }
+            mapKey[a[i]] = key[index];
+            assignedkey+= key[index];
+            index++;
+        }
+    }
+   cout<<endl;
+    cout<<"Encrypted Text: "<<endl;
+    cout<<endl;
+    for(int i = 0;i<a.length();i++){
+        if(a[i] == ' '){
+            continue;
+        }
+        a[i] = mapKey[a[i]];
+    }
+    cout<<a<<endl;
+    for(int i = 0;i<a.length();i++){
+        if(a[i] == ' '){
+            continue;
+        }
+        char c = decrypt(mapKey,a[i]);
+        a[i] = c;
+    }
+    cout<<endl;
+    cout<<"Decrypted Text: "<<endl;
+    cout<<endl;
+    cout<<a;
+}
+
+Output:
+https://lh4.googleusercontent.com/zk68oh5d_BUplx9IqrlGoxwmgowAL1yjyJ51JmImdOGXICDZTTuqF7752G7aQ7DTCLZOEVlf3XHhJ7kZWWBIeLovkff-o8gvqN9cC3pWDZsfvtcKMW7CKQbaiq7M2SIHa3R60XVRSHd5haEYKfVGWqh9xkYnwaN_dZsbSazA7qYPgXwj8G2mzGE

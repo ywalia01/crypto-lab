@@ -1,0 +1,77 @@
+Theory: 
+
+The Hill cipher is a polygraphic substitution cipher based on linear algebra.Each letter is represented by a number modulo 26.
+To encrypt a message, each block of n letters (considered as an n-component vector) is multiplied by an invertible n × n matrix, against modulus 26.
+The matrix used for encryption is the cipher key, and it should be chosen randomly from the set of invertible n × n matrices (modulo 26).
+
+Code: 
+
+import math
+
+def getKeyMatrix(key, kdim):
+    k = 0
+    keyMatrix = [[0] * kdim for i in range(kdim)]
+
+    for i in range(kdim):
+        for j in range(kdim):
+            keyMatrix[i][j] = ord(key[k]) % 65
+            k += 1
+    return keyMatrix
+
+def encrypt(messageVector, keyMatrix, keyDim, d=0):
+    cipherMatrix = [[0] for i in range(keyDim)]
+    for i in range(keyDim):
+        for j in range(1):
+            cipherMatrix[i][j] = 0
+            for x in range(keyDim):
+                cipherMatrix[i][j] += (keyMatrix[i][x] * messageVector[x][j])
+            if d == 0:
+                cipherMatrix[i][j] = cipherMatrix[i][j] % 26
+    return cipherMatrix
+
+def HillCipher(message, key, keyDim):
+    keyMatrix = getKeyMatrix(key, keyDim)
+    messageVector = [[0] for i in range(keyDim)]
+    CipherText = []
+
+    for i in range(keyDim):
+        messageVector[i][0] = ord(message[i]) % 65
+
+    cipherMatrix = encrypt(messageVector, keyMatrix, keyDim)
+    for i in range(keyDim):
+        CipherText.append(chr(cipherMatrix[i][0] + 65))
+
+    return CipherText
+
+def main():
+    msg = "".join(
+        (input("\nEnter the message to be encrypted: ").upper()).split(" "))
+    key = input("Enter the key: ").upper()
+    keyDim = (int(math.sqrt(len(key))))
+
+    if keyDim == 0 or keyDim ** 2 != len(key):
+        print("Invalid Key")
+    else:
+        rem = len(msg) % keyDim
+        if rem != 0:
+            msg += "X" * (keyDim - rem)
+        msgList = [msg[i:i + keyDim] for i in range(0, len(msg), keyDim)]
+        cipherList = []
+        for ms in msgList:
+            out = HillCipher(ms, key, keyDim)
+            cipherList.append(out)
+
+        FinalCipher = ""
+        for x in cipherList:
+            FinalCipher += "".join(x)
+            FinalCipher += " "
+        print("Final Ciphertext: ", FinalCipher)
+        print(" ")
+
+if __name__ == "__main__":
+    main()
+
+Output: 
+https://lh6.googleusercontent.com/1KxMOsyAF0DEzPtC0I1EEo9ql5r1ZIuYQXKToz5BoRDxbgLRm9Li2jU3eEYdBHTZSMk6pVrhyCNd_Wo0Vtb31NOgU3eV0GxX9iOAelxDBqsxo7C492kDEzjchSb6_L4-vNwi-GcLZQ1oONeB0Y1YRdW7cGlGzaR5Vk4VMVOogucR-q3zF_V8BX8
+
+https://lh5.googleusercontent.com/lVE4db1JEETyKh7i5CdzAYNCkbYg6wIqFTz9GR3_jn7U_V4lEwfKj5p1A4pSTDtBixA6kQs9bQRBo-qeh_bcnujpuCxqFZPo2qYmhaJEiFDROtQ_7yXU1vvSHO02ssN5Y2hi7GVPjPKp4oS-Dmxae9-_TXom1GcoQqySL4FVwIt5yfj1afBhfUY

@@ -1,0 +1,90 @@
+Theory: 
+
+The Row Columnar Transposition Cipher is a form of transposition cipher just like Rail Fence Cipher. Row Columnar Transposition involves writing the plaintext out in rows, and then reading the ciphertext off in columns one by one as per the key provided.
+For Encryption, the message is written out in rows of a fixed length, and then read out again column by column, and the columns are chosen in some scrambled order. For Decryption, the recipient must work out the column lengths by dividing the message length by the key length. Then, write the message out in columns again, then re- order the columns by reforming the key word.
+
+Code: 
+
+#include<bits/stdc++.h> 
+using namespace std;
+
+string const key = "dcabefg";
+map < int, int > keyMap;
+void setPermutationOrder() {
+  for (int i = 0; i < key.length(); i++) {
+    keyMap[key[i]] = i;
+  }
+}
+// Encryption
+string encryptMessage(string msg) {
+  int row, col, j;
+  string cipher = "";
+  col = key.length();
+  row = msg.length() / col;
+  if (msg.length() % col)
+    DATE: 12 / 09 / 2022
+  row += 1;
+  char matrix[row][col];
+  for (int i = 0, k = 0; i < row; i++) {
+    for (int j = 0; j < col;) {
+      if (msg[k] == '\0') {
+        matrix[i][j] = '_';
+        j++;
+      }
+      if (isalpha(msg[k]) || msg[k] == ' ') {
+        matrix[i][j] = msg[k];
+        j++;
+      }
+      k++;
+    }
+  }
+  for (map < int, int > ::iterator ii = keyMap.begin(); ii != keyMap.end(); ++ii) {
+    j = ii -> second;
+    for (int i = 0; i < row; i++) {}
+  }
+  return cipher;
+}
+if (isalpha(matrix[i][j]) || matrix[i][j] == ' ' || matrix[i][j] == '_') cipher += matrix[i][j];
+
+// Decryption
+string decryptMessage(string cipher) {
+  int col = key.length();
+  int row = cipher.length() / col;
+  char cipherMat[row][col];
+  for (int j = 0, k = 0; j < col; j++)
+    for (int i = 0; i < row; i++)
+      cipherMat[i][j] = cipher[k++];
+  int index = 0;
+  for (map < int, int > ::iterator ii = keyMap.begin(); ii != keyMap.end(); ++ii)
+    ii -> second = index++;
+  char decCipher[row][col];
+  map < int, int > ::iterator ii = keyMap.begin();
+  int k = 0;
+  for (int l = 0, j; key[l] != '\0'; k++) {
+    j = keyMap[key[l++]];
+    for (int i = 0; i < row; i++) {
+      decCipher[i][k] = cipherMat[i][j];
+    }
+  }
+  string msg = "";
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      if (decCipher[i][j] != '_')
+
+        msg += decCipher[i][j];
+    }
+  }
+  return msg;
+}
+int main(void) {
+  string msg = "killcoronavirusattwelveamtomorrow";
+  cout << "Original Message: " << msg << endl;
+  setPermutationOrder();
+  string cipher = encryptMessage(msg);
+  cout << "Encrypted Message: " << cipher << endl;
+  cout << "Decrypted Message: " << decryptMessage(cipher) << endl;
+  return 0;
+}
+
+Output: 
+https://lh5.googleusercontent.com/_ah7Y7QKQ-TPGmjUz7-ZR_HTnEnWL1m8jEAuZjRJ_4aTbp673Jneb7oAf5Wgnla9Rh34RXkBD7zm_CKYZiMn_71r2aGowYale84A-m05dLKFiSapRqvEbqbXfVF4rHXrbfdAGo5op5opUAghti3yvl-wkgPZUPz4yaOk_KqRUaUAFjJvf_hGYDk

@@ -1,0 +1,67 @@
+Theory: 
+
+Vernam Cipher is a method of encrypting alphabetic text. It is one of the Substitution techniques for converting plain text into cipher text. In this mechanism we assign a number to each character of the Plain-Text, like (a = 0, b = 1, c = 2, … z = 25). 
+The key is taken to encrypt the plain text whose length should be equal to the length of the plain text. 
+
+Encryption Algorithm: 
+Assign a number to each character of the plain-text and the key according to alphabetical order. 
+Bitwise XOR both the number (Corresponding plain-text character number and Key character number). 
+Subtract the number from 26 if the resulting number is greater than or equal to 26, if it isn’t then leave it.
+
+Code: 
+
+plaintext = input("\nEnter Plaintext: ").upper()
+otp = input("Enter the Key/One Time Pad: ").upper()
+if len(plaintext) != len(otp):
+    print("Invalid Key")
+    print(" ")
+    quit()
+plaintextList = []
+otpList = []
+
+for c1 in plaintext:
+    temp = ord(c1) - 65
+    plaintextList.append(temp)
+
+for c2 in otp:
+    temp = ord(c2) - 65
+    otpList.append(temp)
+
+for number in plaintextList:
+    if (number < 0):
+        plaintextList.remove(number)
+
+for number in otpList:
+    if (number < 0):
+        otpList.remove(number)
+
+print("Plaintext: ", plaintextList)
+print("Key: ", otpList)
+
+tempList = []
+for i in range(len(plaintextList)):
+    tempList.append(plaintextList[i] ^ otpList[i])
+
+ciphertextList = []
+for item in tempList:
+    if(item > 25):
+        item -= 26
+        ciphertextList.append(item)
+    else:
+        ciphertextList.append(item)
+
+print("Cipher Matrix: ", ciphertextList)
+
+ct = ""
+for number in ciphertextList:
+    number += 65
+    temp = chr(number)
+    tempstr = str(temp)
+    ct = ct + tempstr
+
+print("Ciphertext: ", ct.lower())
+print(" ")
+print(" ")
+
+Output: 
+https://lh3.googleusercontent.com/BFHK3gEMOtrXOtHv8QagWgqK0toVgSUeU5RXsugyxu_QAvBVkiLJgWHS7HtnIAt32LeJpHH1uChJlg0f-1QmvO4ohX1lh_odTf2PXBcTBoG_qpPaBU8Gil7ejsiLV4vq9wuWKy8sNBqm5Rt4Mngb0VV4utCHB_HbRrVKtzfkHWX-0euUBcAxrGk
